@@ -1,24 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import Form from './components/Form';
+import { useEffect, useState } from 'react';
+import Task from './components/Task';
 
 function App() {
+  const [tasks, setTasks] = useState([])
+
+  useEffect(() => {
+    if (tasks.length === 0) return
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks])
+
+  useEffect(() => {
+    const tasks = JSON.parse(localStorage.getItem('tasks'))
+    setTasks(tasks)
+    
+  }, [])
+
+  function addTask(task) {
+    if (!task.text || /^\s*$/.test(task.text)) {
+      return
+    }
+    setTasks(prev => {
+      return [...prev, {name: task.text, done: false}]
+    })
+  }
+
+  function updateTask(index, done) {
+    setTasks(prev => {
+      return prev.map((task, i) => {
+        if (i === index) {
+          return {...task, done}
+        }
+        return task
+      })
+    })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <Form onAdd={addTask}/>
+      {tasks.map((task, index )=> (
+        <Task {...task} onToggle={done => updateTask(index, done)}/>
+      ))}
+    </main>
   );
 }
 
