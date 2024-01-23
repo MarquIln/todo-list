@@ -10,7 +10,7 @@ body {
 main {
   max-width: 300px;
   margin: 20px auto;
-
+  padding: 10px;
 }
 
 form {
@@ -19,13 +19,21 @@ form {
   border-radius: 10px;
   padding: 5px;
 }
+
 form input[type="text"] {
   background: none;
   border: none;
   border-radius: 10px;
   padding: 0 5px;
-  color: black
+  color: black;
+  outline: none;
+  border: none
 } 
+
+form input[type="text"]:focus {
+  outline: none;
+  border: none;
+}
 
 form button{
   background-color: white;
@@ -72,4 +80,40 @@ div.task span:before {
 
 div.task.done span:before {
   width: 100%;
+}
+
+div.option-buttons {
+  margin-left: auto;
+  display: flex;
+}
+
+.edit-btn, .save-btn, .cancel-btn {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+  padding: 5px 8px;
+}
+
+.save-btn {
+  background-color: #4caf50;
+  color: white;
+  border-radius: 10px;
+  margin-left: 45px;
+}
+
+.edit-btn, .save-btn, .cancel-btn {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.edit-btn:hover, .save-btn:hover, .cancel-btn:hover {
+  background-color: #ddd;
+}
+
+.edit-input {
+  border: none;
+  outline: none;
+  border-radius: 10px; 
+  background-color: #dfdddd; 
 }

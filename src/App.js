@@ -2,6 +2,7 @@ import './App.css'
 import Form from './components/Form';
 import { useEffect, useState } from 'react';
 import Task from './components/Task';
+import List from './components/List';
 
 function App() {
   const [tasks, setTasks] = useState([])
@@ -37,11 +38,36 @@ function App() {
     })
   }
 
+  function onEdit(index, newName) {
+    setTasks(prev => {
+      return prev.map((task, i) => {
+        if (i === index) {
+          return {...task, name: newName}
+        }
+        return task
+      })
+    })
+  }
+
+  function removeTask(index) {
+    setTasks(prev => {
+      const updatedTasks = [...prev]
+      updatedTasks.splice(index, 1)
+      return updatedTasks
+    })
+  }
+
   return (
     <main>
+      <List />
       <Form onAdd={addTask}/>
       {tasks.map((task, index )=> (
-        <Task {...task} onToggle={done => updateTask(index, done)}/>
+        <Task 
+          key={index} 
+          {...task} 
+          onToggle={done => updateTask(index, done)} 
+          onEdit={newName => onEdit(index, newName)}
+          onRemove={() => removeTask(index)}/>
       ))}
     </main>
   );
