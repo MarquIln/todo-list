@@ -13,9 +13,10 @@ function App() {
   }, [tasks])
 
   useEffect(() => {
-    const tasks = JSON.parse(localStorage.getItem('tasks'))
-    setTasks(tasks)
-    
+    const tasksFromStorage = localStorage.getItem('tasks')
+    if (tasksFromStorage) {
+      setTasks(JSON.parse(tasksFromStorage))
+    }
   }, [])
 
   function addTask(task) {
@@ -61,7 +62,7 @@ function App() {
     <main>
       <List />
       <Form onAdd={addTask}/>
-      {tasks.map((task, index )=> (
+      {tasks && tasks.map((task, index )=> (
         <Task 
           key={index} 
           {...task} 
